@@ -1,0 +1,53 @@
+﻿@model MVC5HW.Models.客戶資料ViewListVM
+
+@{
+    ViewBag.Title = "客戶資料View";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+
+    @using (Html.BeginForm("ViewIndex", "客戶資料", FormMethod.Get))
+    {
+        <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(p => p.Search, new { placeholder = "請輸入客戶名稱", @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                <input type="submit" class="btn btn-default" value="查詢客戶名稱" />
+            </div>
+        </div>
+    }
+
+</p>
+<table class="table">
+    <tr>
+        <th>
+            客戶名稱
+        </th>
+        <th>
+            聯絡人數量
+        </th>
+        <th>
+            銀行帳戶數量
+        </th>
+    </tr>
+
+    @foreach (var item in Model.客戶資料View)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.客戶名稱)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.聯絡人數量)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.銀行帳戶數量)
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,78 @@
+﻿@model MVC5HW.Models.客戶資料ListVM
+
+@{
+    ViewBag.Title = "客戶資料列表";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+
+    @using (Html.BeginForm("Index", "客戶資料", FormMethod.Get))
+    {
+        <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(p => p.Search, new { placeholder = "請輸入客戶名稱", @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                <input type="submit" class="btn btn-default" value="查詢客戶名稱" />
+            </div>
+        </div>
+    }
+
+</p>
+<table class="table">
+    <tr>
+        <th>
+            客戶名稱
+        </th>
+        <th>
+            統一編號
+        </th>
+        <th>
+            電話
+        </th>
+        <th>
+            傳真
+        </th>
+        <th>
+            地址
+        </th>
+        <th>
+            Email
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.客戶資料)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.客戶名稱)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.統一編號)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.電話)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.傳真)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.地址)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

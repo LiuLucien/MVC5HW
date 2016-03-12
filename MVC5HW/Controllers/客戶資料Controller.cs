@@ -2,12 +2,15 @@
 using System.Web.Mvc;
 using MVC5HW.Models;
 using MVC5HW.Services;
+using System.Collections.Generic;
 
 namespace MVC5HW.Controllers
 {
     public class 客戶資料Controller : BaseController
     {
         客戶資料Service 客戶資料Service;
+        客戶資料Repository Repository = RepositoryHelper.Get客戶資料Repository();
+
 
         public 客戶資料Controller()
         {
@@ -19,6 +22,24 @@ namespace MVC5HW.Controllers
         {
             var data = 客戶資料Service.GetList(model);
             return View(data);
+        }
+
+        [HttpPost]
+        public ActionResult Index(List<客戶資料VM> 客戶資料)
+        {
+            foreach (var item in 客戶資料)
+            {
+                var query = Repository.Find(item.Id);
+                if (query != null)
+                {
+                    query.地址 = item.地址;
+                    query.傳真 = item.傳真;
+                }
+            }
+
+            Repository.UnitOfWork.Commit();
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult ViewIndex(客戶資料ViewListVM model)
@@ -92,6 +113,8 @@ namespace MVC5HW.Controllers
             {
                 if (客戶資料Service.Edit(客戶資料))
                 {
+                    TempData["message"] = "修改成功";
+
                     return RedirectToAction("Index");
                 }
             }

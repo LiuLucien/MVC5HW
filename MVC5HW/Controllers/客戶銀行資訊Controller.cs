@@ -5,7 +5,7 @@ using System.Web.Mvc;
 
 namespace MVC5HW.Controllers
 {
-    public class 客戶銀行資訊Controller : Controller
+    public class 客戶銀行資訊Controller : BaseController
     {
         客戶銀行資訊Service 客戶銀行資訊Service;
         客戶資料Service 客戶資料Service;

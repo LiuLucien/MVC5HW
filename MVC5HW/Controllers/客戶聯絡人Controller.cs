@@ -11,7 +11,7 @@ using MVC5HW.Services;
 
 namespace MVC5HW.Controllers
 {
-    public class 客戶聯絡人Controller : Controller
+    public class 客戶聯絡人Controller : BaseController
     {
         客戶聯絡人Service 客戶聯絡人Service;
         客戶資料Service 客戶資料Service;

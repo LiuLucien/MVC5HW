@@ -13,7 +13,7 @@ using MVC5HW.Models;
 namespace MVC5HW.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;

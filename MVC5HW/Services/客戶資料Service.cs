@@ -8,12 +8,13 @@ using System.Web.Mvc;
 
 namespace MVC5HW.Services
 {
-    public class 客戶資料Service : BaseService
+    public class 客戶資料Service
     {
+        客戶資料Repository Repository = RepositoryHelper.Get客戶資料Repository();
 
         public 客戶資料ListVM GetList(客戶資料ListVM model)
         {
-            var data = db.客戶資料.Where(s => !s.是否已刪除);
+            var data = Repository.All();
 
             if (!string.IsNullOrEmpty(model.Search))
             {
@@ -26,12 +27,12 @@ namespace MVC5HW.Services
         }
 
         public 客戶資料ViewListVM GetViewList(客戶資料ViewListVM model)
-        {
-            var data = db.客戶資料View.ToList();
+        { 
+            var data = RepositoryHelper.Get客戶資料ViewRepository(Repository.UnitOfWork).All();
 
             if (!string.IsNullOrEmpty(model.Search))
             {
-                data = data.Where(s => s.客戶名稱.Contains(model.Search)).ToList();
+                data = data.Where(s => s.客戶名稱.Contains(model.Search));
             }
             Mapper.CreateMap<客戶資料View, 客戶資料ViewVM>();
             model.客戶資料View = Mapper.Map<List<客戶資料View>, List<客戶資料ViewVM>>(data.ToList());
@@ -42,7 +43,7 @@ namespace MVC5HW.Services
         public 客戶資料VM Get客戶資料ById(int value)
         {
             客戶資料VM model = new 客戶資料VM();
-            var query = db.客戶資料.FirstOrDefault(s => s.Id == value && !s.是否已刪除);
+            var query = Repository.Find(value);
             if (query != null)
             {
                 Mapper.CreateMap<客戶資料, 客戶資料VM>();
@@ -58,20 +59,20 @@ namespace MVC5HW.Services
             Mapper.CreateMap<客戶資料VM, 客戶資料>();
             data = Mapper.Map<客戶資料VM, 客戶資料>(model);
 
-            db.客戶資料.Add(data);
-            db.SaveChanges();
+            Repository.Add(data);
+            Repository.UnitOfWork.Commit();
             return true;
         }
 
         public bool Edit(客戶資料VM model)
         {
-            var query = db.客戶資料.FirstOrDefault(s => s.Id == model.Id && !s.是否已刪除);
+            var query = Repository.Find(model.Id);
 
             if (query != null)
             {
                 Mapper.CreateMap<客戶資料VM, 客戶資料>();
                 Mapper.Map(model, query);
-                db.SaveChanges();
+                Repository.UnitOfWork.Commit();
                 return true;
             }
             return false;
@@ -79,24 +80,12 @@ namespace MVC5HW.Services
 
         public bool Delete(int value)
         {
-            var query = db.客戶資料.FirstOrDefault(s => s.Id == value && !s.是否已刪除);
+            var query = Repository.Find(value);
 
             if (query != null)
             {
                 query.是否已刪除 = true;
-
-                var bank = db.客戶銀行資訊.Where(s => s.客戶Id == value && !s.是否已刪除);
-                foreach (var item in bank)
-                {
-                    item.是否已刪除 = true;
-                }
-
-                var contact = db.客戶聯絡人.Where(s => s.客戶Id == value && !s.是否已刪除);
-                foreach (var item in contact)
-                {
-                    item.是否已刪除 = true;
-                }
-                db.SaveChanges();
+                Repository.UnitOfWork.Commit();
                 return true;
             }
             return false;
@@ -106,7 +95,7 @@ namespace MVC5HW.Services
         {
             List<SelectListItem> model = new List<SelectListItem>() { };
 
-            foreach (var item in db.客戶資料.Where(s => !s.是否已刪除))
+            foreach (var item in Repository.All())
             {
                 model.Add(new SelectListItem()
                 {

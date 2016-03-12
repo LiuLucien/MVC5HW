@@ -7,11 +7,11 @@ using System.Web;
 
 namespace MVC5HW.Models
 {
-    public sealed class 驗證電話Attribute : ValidationAttribute
+    public sealed class 驗證手機Attribute : ValidationAttribute
     {
         public const string RegExString = @"\d{4}-\d{6}";
 
-        public 驗證電話Attribute()
+        public 驗證手機Attribute()
         {
         }
 

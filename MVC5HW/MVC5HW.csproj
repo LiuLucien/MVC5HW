@@ -230,7 +230,7 @@
       <DependentUpon>HW.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\客戶銀行資訊VM.cs" />
-    <Compile Include="Models\驗證電話.cs" />
+    <Compile Include="Models\驗證手機.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\客戶銀行資訊Service.cs" />

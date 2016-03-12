@@ -29,7 +29,6 @@ namespace MVC5HW.Models
         [StringLength(8, ErrorMessage = "{0}長度不可超過8。")]
         public string 統一編號 { get; set; }
 
-        [驗證電話(ErrorMessage = "電話格式錯誤(xxxx-xxxxxx)")]
         [Display(Name = "電話"), Required(ErrorMessage = "{0}欄位必填")]
         [StringLength(50, ErrorMessage = "{0}長度不可超過50。")]
         public string 電話 { get; set; }

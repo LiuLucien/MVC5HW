@@ -44,22 +44,14 @@ namespace MVC5HW.Services
 
         public bool Create(客戶聯絡人VM model, ref string errorMsg)
         {
-            if (!db.客戶聯絡人.Any(s => s.Email == model.Email && s.客戶Id == model.客戶Id))
-            {
-                客戶聯絡人 data = new 客戶聯絡人();
+            客戶聯絡人 data = new 客戶聯絡人();
 
-                Mapper.CreateMap<客戶聯絡人VM, 客戶聯絡人>();
-                data = Mapper.Map<客戶聯絡人VM, 客戶聯絡人>(model);
+            Mapper.CreateMap<客戶聯絡人VM, 客戶聯絡人>();
+            data = Mapper.Map<客戶聯絡人VM, 客戶聯絡人>(model);
 
-                db.客戶聯絡人.Add(data);
-                db.SaveChanges();
-                return true;
-            }
-            else
-            {
-                errorMsg = "Email重覆!!";
-                return false;
-            }
+            db.客戶聯絡人.Add(data);
+            db.SaveChanges();
+            return true;
         }
 
         public bool Edit(客戶聯絡人VM model, ref string errorMsg)
@@ -68,18 +60,10 @@ namespace MVC5HW.Services
 
             if (query != null)
             {
-                if (!db.客戶聯絡人.Any(s => s.Email == model.Email && s.客戶Id == model.客戶Id && s.Id != model.Id))
-                {
-                    Mapper.CreateMap<客戶聯絡人VM, 客戶聯絡人>();
-                    Mapper.Map(model, query);
-                    db.SaveChanges();
-                    return true;
-                }
-                else
-                {
-                    errorMsg = "Email重覆!!";
-                    return false;
-                }
+                Mapper.CreateMap<客戶聯絡人VM, 客戶聯絡人>();
+                Mapper.Map(model, query);
+                db.SaveChanges();
+                return true;
             }
             errorMsg = "找不到資料!!";
             return false;

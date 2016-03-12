@@ -112,14 +112,26 @@ namespace MVC5HW.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(客戶資料VM 客戶資料)
         {
-            if (ModelState.IsValid)
-            {
-                if (客戶資料Service.Edit(客戶資料))
-                {
-                    TempData["message"] = "修改成功";
+            //if (ModelState.IsValid)
+            //{
+            //    if (客戶資料Service.Edit(客戶資料))
+            //    {
+            //        TempData["message"] = "修改成功";
 
-                    return RedirectToAction("Index");
-                }
+            //        return RedirectToAction("Index");
+            //    }
+            //}
+
+            客戶資料 data = Repository.Find(客戶資料.Id);
+
+            if (TryUpdateModel<客戶資料>(data, new string[] {
+                "客戶名稱","統一編號","電話","傳真","地址","Email" }))
+            {
+                Repository.UnitOfWork.Commit();
+
+                TempData["message"] = "修改成功";
+
+                return RedirectToAction("Index");
             }
             return View(客戶資料);
         }

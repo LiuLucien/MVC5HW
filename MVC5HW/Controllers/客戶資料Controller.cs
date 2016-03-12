@@ -25,21 +25,24 @@ namespace MVC5HW.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(List<客戶資料VM> 客戶資料)
+        public ActionResult Index(IList<客戶資料批次更新VM> 客戶資料)
         {
-            foreach (var item in 客戶資料)
+            if (ModelState.IsValid)
             {
-                var query = Repository.Find(item.Id);
-                if (query != null)
+                foreach (var item in 客戶資料)
                 {
-                    query.地址 = item.地址;
-                    query.傳真 = item.傳真;
+                    var query = Repository.Find(item.Id);
+                    if (query != null)
+                    {
+                        query.地址 = item.地址;
+                        query.電話 = item.電話;
+                    }
                 }
+                Repository.UnitOfWork.Commit();
+
+                return RedirectToAction("Index");
             }
-
-            Repository.UnitOfWork.Commit();
-
-            return RedirectToAction("Index");
+            return View(客戶資料Service.GetList(new 客戶資料ListVM()));
         }
 
         public ActionResult ViewIndex(客戶資料ViewListVM model)

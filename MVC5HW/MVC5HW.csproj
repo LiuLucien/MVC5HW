@@ -1133,6 +1133,7 @@
     <Content Include="Views\AR\Index.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Member\Login.cshtml" />
+    <Content Include="Views\Home\RazerTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

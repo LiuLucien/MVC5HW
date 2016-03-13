@@ -44,6 +44,20 @@ namespace MVC5HW.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HandleError]
+        public ActionResult ErrorType(string a)
+        {
+            if (a == "1")
+            {
+                throw new Exception("error 1");
+            }
+            if (a == "b")
+            {
+                throw new ArgumentException("error 2");
+            }
+            return View();
+        }
+
         private bool CheckLogin(string username, string password)
         {
             return (

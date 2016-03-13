@@ -17,7 +17,8 @@
             <th>客戶名稱</th>
         </tr>
         <tr ng-repeat="item in data">
-            <td>{{item.客戶名稱}}</td>
+            @* ['轉unicode'] *@
+            <td>{{item['客戶名稱']}}</td>
         </tr>
     </table>
 </div>
@@ -30,7 +31,7 @@
         function MainCtrl($http, $scope) {
             $scope.get = function () {
                 $http.get('/AR/JsonTest').then(function (result) {
-                    //console.log(result.data);
+                    console.log(result.data);
 
                     $scope.data = result.data;
 

@@ -13,17 +13,15 @@ namespace MVC5HW.Controllers
             return View();
         }
 
+        [HomeController共用ViewBag]
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
+        [HomeController共用ViewBag]
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }

@@ -1,4 +1,4 @@
-﻿@model MVC5HW.Models.客戶資料ListVM
+﻿@model 客戶資料ListVM
 
 @{
     ViewBag.Title = "客戶資料列表";
@@ -8,6 +8,9 @@
 
 <p>
     @Html.ActionLink("Create New", "Create")
+
+    @Html.ActionLink(" ", "Create", "客戶資料", null, new { })
+    <a href="@Url.Action("Create")" class="btn btn-primary">Create</a>
 
     @using (Html.BeginForm("Index", "客戶資料", FormMethod.Get))
     {

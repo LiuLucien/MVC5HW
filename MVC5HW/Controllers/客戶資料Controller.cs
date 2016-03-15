@@ -10,17 +10,24 @@ namespace MVC5HW.Controllers
     {
         客戶資料Service 客戶資料Service;
         客戶資料Repository Repository = RepositoryHelper.Get客戶資料Repository();
+        客戶聯絡人Service 客戶聯絡人Service;
 
 
         public 客戶資料Controller()
         {
             客戶資料Service = new 客戶資料Service();
+            客戶聯絡人Service = new 客戶聯絡人Service();
         }
 
         // GET: 客戶資料
-        public ActionResult Index(客戶資料ListVM model)
+        public ActionResult Index(客戶資料ListVM model, int? 客戶Id, string type)
         {
             var data = 客戶資料Service.GetList(model);
+            if (客戶Id.HasValue)
+            {
+                TempData["客戶Id"] = 客戶Id.Value;
+                TempData["type"] = type;
+            }
             return View(data);
         }
 
@@ -162,5 +169,14 @@ namespace MVC5HW.Controllers
             }
             return RedirectToAction("Delete",new { id= id });
         }
+
+        // GET: 客戶聯絡人
+        [ChildActionOnly]
+        public ActionResult Contect(客戶聯絡人ListVM model)
+        {
+            var data = 客戶聯絡人Service.GetList(model);
+            return PartialView(data);
+        }
+        
     }
 }

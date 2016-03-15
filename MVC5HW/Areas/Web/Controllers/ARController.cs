@@ -1,11 +1,12 @@
-﻿using MVC5HW.Models;
+﻿using MVC5HW.Controllers;
+using MVC5HW.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MVC5HW.Controllers
+namespace MVC5HW.Areas.Web.Controllers
 {
     public class ARController : BaseController
     {

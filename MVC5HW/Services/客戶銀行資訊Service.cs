@@ -8,11 +8,15 @@ using System.Web.Mvc;
 
 namespace MVC5HW.Services
 {
-    public class 客戶銀行資訊Service : BaseService
+    public class 客戶銀行資訊Service
     {
+        客戶銀行資訊Repository Repository = RepositoryHelper.Get客戶銀行資訊Repository();
+        客戶資料Repository 客戶資料Repository = RepositoryHelper.Get客戶資料Repository();
+
+
         public 客戶銀行資訊ListVM GetList(客戶銀行資訊ListVM model)
         {
-            var data = db.客戶銀行資訊.Where(s => !s.是否已刪除);
+            var data = Repository.All();
 
             if (!string.IsNullOrEmpty(model.Search))
             {
@@ -23,7 +27,7 @@ namespace MVC5HW.Services
 
             foreach (var item in model.客戶銀行資訊)
             {
-                item.客戶名稱 = db.客戶資料.Where(s => s.Id == item.客戶Id).Select(s => s.客戶名稱).FirstOrDefault();
+                item.客戶名稱 = 客戶資料Repository.Where(s => s.Id == item.客戶Id).Select(s => s.客戶名稱).FirstOrDefault();
             }
 
             return model;
@@ -32,12 +36,12 @@ namespace MVC5HW.Services
         public 客戶銀行資訊VM Get客戶銀行資訊ById(int value)
         {
             客戶銀行資訊VM model = new 客戶銀行資訊VM();
-            var query = db.客戶銀行資訊.FirstOrDefault(s => s.Id == value && !s.是否已刪除);
+            var query = Repository.Find(value);
             if (query != null)
             {
                 Mapper.CreateMap<客戶銀行資訊, 客戶銀行資訊VM>();
                 model = Mapper.Map<客戶銀行資訊, 客戶銀行資訊VM>(query);
-                model.客戶名稱= db.客戶資料.Where(s => s.Id == query.客戶Id).Select(s => s.客戶名稱).FirstOrDefault();
+                model.客戶名稱 = 客戶資料Repository.Where(s => s.Id == query.客戶Id).Select(s => s.客戶名稱).FirstOrDefault();
             }
             return model;
         }
@@ -49,20 +53,20 @@ namespace MVC5HW.Services
             Mapper.CreateMap<客戶銀行資訊VM, 客戶銀行資訊>();
             data = Mapper.Map<客戶銀行資訊VM, 客戶銀行資訊>(model);
 
-            db.客戶銀行資訊.Add(data);
-            db.SaveChanges();
+            Repository.Add(data);
+            Repository.UnitOfWork.Commit();
             return true;
         }
 
         public bool Edit(客戶銀行資訊VM model)
         {
-            var query = db.客戶銀行資訊.FirstOrDefault(s => s.Id == model.Id && !s.是否已刪除);
+            var query = Repository.Find(model.Id);
 
             if (query != null)
             {
                 Mapper.CreateMap<客戶銀行資訊VM, 客戶銀行資訊>();
                 Mapper.Map(model, query);
-                db.SaveChanges();
+                Repository.UnitOfWork.Commit();
                 return true;
             }
             return false;
@@ -70,12 +74,12 @@ namespace MVC5HW.Services
 
         public bool Delete(int value)
         {
-            var query = db.客戶銀行資訊.FirstOrDefault(s => s.Id == value && !s.是否已刪除);
+            var query = Repository.Find(value);
 
             if (query != null)
             {
                 query.是否已刪除 = true;
-                db.SaveChanges();
+                Repository.UnitOfWork.Commit();
                 return true;
             }
             return false;

@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
-namespace MVC5HW.Controllers
+namespace MVC5HW.Areas.Web.Controllers
 {
     [Authorize]
     public class MemberController : Controller

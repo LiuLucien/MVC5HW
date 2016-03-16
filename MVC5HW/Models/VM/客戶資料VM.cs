@@ -42,6 +42,10 @@ namespace MVC5HW.Models
         [EmailAddress]
         [Display(Name = "Email"), StringLength(250, ErrorMessage = "{0}長度不可超過250。")]
         public string Email { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "密碼")]
+        public string 密碼 { get; set; }
     }
     
     public class 客戶資料批次更新VM

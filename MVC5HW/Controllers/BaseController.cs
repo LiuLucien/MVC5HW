@@ -8,6 +8,7 @@ namespace MVC5HW.Controllers
 {
     public abstract class BaseController : Controller
     {
+        public int UserId => string.IsNullOrEmpty(User.Identity.Name) ? 0 : Convert.ToInt32((User.Identity.Name));
 
         protected override void HandleUnknownAction(string actionName)
         {

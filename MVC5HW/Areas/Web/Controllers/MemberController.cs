@@ -26,9 +26,9 @@ namespace MVC5HW.Areas.Web.Controllers
         [HttpPost,AllowAnonymous]
         public ActionResult Login(LoginViewModel login)
         {
-            if (CheckLogin(login.Email, login.Password))
+            if (CheckLogin(login.Account, login.Password))
             {
-                FormsAuthentication.RedirectFromLoginPage(login.Email, login.RememberMe);
+                FormsAuthentication.RedirectFromLoginPage(login.Account, login.RememberMe);
 
                 return RedirectToAction("Index", "Home");
             }

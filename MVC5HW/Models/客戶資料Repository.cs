@@ -27,6 +27,13 @@ namespace MVC5HW.Models
         {
             return this.All(isAll).FirstOrDefault(s => s.Id == id);
         }
+
+        public bool CheckLogin(string username, string password,ref int UserId, bool isAll = false)
+        {
+            UserId = this.All(isAll).Where(s => s.帳號 == username && s.密碼 == password).Select(s => s.Id).FirstOrDefault();
+
+            return UserId != 0;
+        }
     }
 
 	public  interface I客戶資料Repository : IRepository<客戶資料>

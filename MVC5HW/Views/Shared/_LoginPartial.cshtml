@@ -1,16 +1,41 @@
 ﻿@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
-{
-    <ul class="nav navbar-nav navbar-right" style="color:blue">
-        <li>
-            @User.Identity.Name
-        </li>
-        <li><a href="@Url.Action("Logout","Member")">登出</a></li>
+
+<!-- start: Header Menu -->
+<div class="nav-no-collapse header-nav">
+    <ul class="nav pull-right">
+        <!-- start: User Dropdown -->
+        @if (Request.IsAuthenticated)
+        {
+            <li class="dropdown">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="halflings-icon white user">
+                    </i> @(((FormsIdentity)HttpContext.Current.User.Identity).Ticket.UserData)
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-menu-title">
+                        <span>Account Settings</span>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Edit","Member")">
+                            <i class="halflings-icon user"></i>
+                            修改客戶資料
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Logout","Member")">
+                            <i class="halflings-icon off"></i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        }
+        else
+        {
+            <li>@Html.ActionLink("登入", "Login", "Member", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        }
+        <!-- end: User Dropdown -->
     </ul>
-}
-else
-{
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("登入", "Login", "Member", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
-}
+</div>
+<!-- end: Header Menu -->

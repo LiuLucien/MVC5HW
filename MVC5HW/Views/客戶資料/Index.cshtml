@@ -7,21 +7,15 @@
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
-
     @Html.ActionLink(" ", "Create", "客戶資料", null, new { })
     <a href="@Url.Action("Create")" class="btn btn-primary">Create</a>
 
     @using (Html.BeginForm("Index", "客戶資料", FormMethod.Get))
     {
-        <div class="row">
-            <div class="col-md-8"></div>
-            <div class="col-md-2">
-                @Html.TextBoxFor(p => p.Search, new { placeholder = "請輸入客戶名稱", @class = "form-control" })
-            </div>
-            <div class="col-md-2">
-                <input type="submit" class="btn btn-default" value="查詢客戶名稱" />
-            </div>
+        <div class="form-group">
+            @Html.TextBoxFor(p => p.Search, new { placeholder = "請輸入客戶名稱", @class = "form-control" })
+            <input type="submit" class="btn btn-default" value="查詢" />
+            @Html.DropDownListFor(s => s.EnumSearch, EnumHelper.GetSelectList(typeof(客戶分類Enum)), new { @class = "form-control" })
         </div>
     }
 
@@ -47,6 +41,9 @@
             </th>
             <th>
                 Email
+            </th>
+            <th>
+                客戶分類
             </th>
             <th></th>
         </tr>
@@ -89,6 +86,9 @@
                     @Html.DisplayFor(modelItem => Model.客戶資料[i].Email)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => Model.客戶資料[i].客戶分類str)
+                </td>
+                <td>
                     @Html.ActionLink("Edit", "Edit", new { id = Model.客戶資料[i].Id }) |
                     @Html.ActionLink("Details", "Index", new { 客戶id = Model.客戶資料[i].Id, type = "Details" }) |
                     @Html.ActionLink("Delete", "Delete", new { id = Model.客戶資料[i].Id }) |
@@ -121,12 +121,12 @@
     </script>
 }
 
-    @section breadcrumb{
-            <li><a href="#">@ViewBag.Title</a></li>
-        }
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-        <script>
+@section breadcrumb{
+    <li><a href="#">@ViewBag.Title</a></li>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
 
-        </script>
-    }
+    </script>
+}

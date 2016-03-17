@@ -20,6 +20,7 @@ namespace MVC5HW.Controllers
         }
 
         // GET: 客戶資料
+        [計算時間]
         public ActionResult Index(客戶資料ListVM model, int? 客戶Id, string type)
         {
             var data = 客戶資料Service.GetList(model);
@@ -117,22 +118,12 @@ namespace MVC5HW.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(客戶資料VM 客戶資料)
+        public ActionResult Edit(客戶修改資料VM 客戶資料)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    if (客戶資料Service.Edit(客戶資料))
-            //    {
-            //        TempData["message"] = "修改成功";
-
-            //        return RedirectToAction("Index");
-            //    }
-            //}
-
             客戶資料 data = Repository.Find(客戶資料.Id);
 
             if (TryUpdateModel<客戶資料>(data, new string[] {
-                "客戶名稱","統一編號","電話","傳真","地址","Email" }))
+                "客戶名稱","統一編號","電話","傳真","地址","Email" ,"客戶分類"}))
             {
                 Repository.UnitOfWork.Commit();
 

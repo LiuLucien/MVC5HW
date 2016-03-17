@@ -3,7 +3,6 @@ using MVC5HW.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MVC5HW.Services
@@ -20,8 +19,17 @@ namespace MVC5HW.Services
             {
                 data = data.Where(s => s.客戶名稱.Contains(model.Search));
             }
+            if (model.EnumSearch.HasValue)
+            {
+                data = data.Where(s => s.客戶分類 == model.EnumSearch.Value);
+            }
+
             Mapper.CreateMap<客戶資料, 客戶資料VM>();
             model.客戶資料 = Mapper.Map<List<客戶資料>, List<客戶資料VM>>(data.ToList());
+            foreach (var item in model.客戶資料)
+            {
+                item.客戶分類str = Enum.GetName(typeof(客戶分類Enum), item.客戶分類);
+            }
 
             return model;
         }
@@ -58,9 +66,10 @@ namespace MVC5HW.Services
 
             Mapper.CreateMap<客戶資料VM, 客戶資料>();
             data = Mapper.Map<客戶資料VM, 客戶資料>(model);
-
+            data.密碼 = data.密碼.GetHashCode().ToString();
             Repository.Add(data);
             Repository.UnitOfWork.Commit();
+
             return true;
         }
 

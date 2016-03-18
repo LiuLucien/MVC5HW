@@ -9,5 +9,11 @@ namespace MVC5HW.Models
 
         public int? EnumSearch { get; set; }
 
+        public int Page { get; set; }
+
+        public BaseListVM()
+        {
+            Page = 1;
+        }
     }
 }

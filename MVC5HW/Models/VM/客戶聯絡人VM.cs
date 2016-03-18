@@ -23,7 +23,7 @@ namespace MVC5HW.Models
     /// <summary>
     /// 客戶聯絡人VM類別。
     /// </summary>
-    public class 客戶聯絡人VM: IValidatableObject
+    public class 客戶聯絡人VM : IValidatableObject
     {
         public int Id { get; set; }
 
@@ -55,7 +55,7 @@ namespace MVC5HW.Models
 
         [Display(Name = "客戶名稱")]
         public string 客戶名稱 { get; set; }
-    
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
 
@@ -77,5 +77,24 @@ namespace MVC5HW.Models
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// 客戶聯絡人批次修改VM。
+    /// </summary>
+    public class 客戶聯絡人批次修改VM
+    {
+        public int Id { get; set; }
+
+        [Display(Name = "職稱"), Required(ErrorMessage = "{0}欄位必填")]
+        [StringLength(50, ErrorMessage = "{0}長度不可超過50。")]
+        public string 職稱 { get; set; }
+
+        [驗證手機(ErrorMessage = "手機格式錯誤(xxxx-xxxxxx)")]
+        [Display(Name = "手機"), StringLength(50, ErrorMessage = "{0}長度不可超過50。")]
+        public string 手機 { get; set; }
+
+        [Display(Name = "電話"), StringLength(50, ErrorMessage = "{0}長度不可超過50。")]
+        public string 電話 { get; set; }
     }
 }

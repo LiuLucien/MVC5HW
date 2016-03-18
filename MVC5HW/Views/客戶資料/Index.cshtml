@@ -1,4 +1,6 @@
 ﻿@model 客戶資料ListVM
+@using PagedList;
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "客戶資料列表";
@@ -18,7 +20,6 @@
             @Html.DropDownListFor(s => s.EnumSearch, EnumHelper.GetSelectList(typeof(客戶分類Enum)), new { @class = "form-control" })
         </div>
     }
-
 </p>
 @using (Html.BeginForm("index", "客戶資料"))
 {
@@ -51,14 +52,6 @@
 
         @for (var i = 0; i < Model.客戶資料.Count(); i++)
         {
-            if (TempData["客戶Id"] != null)
-            {
-                if (ViewBag.SelectedProductId != null && TempData["客戶Id"].ToString() == Model.客戶資料[i].Id.ToString())
-                {
-                    ViewBag.SelectedProductItem = Model.客戶資料[i];
-                }
-            }
-
             @Html.HiddenFor(modelItem => Model.客戶資料[i].Id)
             <tr style="background-color:@((TempData["客戶Id"]!=null?TempData["客戶Id"]:"").ToString()==Model.客戶資料[i].Id.ToString()? "yellow":"")">
                 <td>
@@ -90,7 +83,7 @@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = Model.客戶資料[i].Id }) |
-                    @Html.ActionLink("Details", "Index", new { 客戶id = Model.客戶資料[i].Id, type = "Details" }) |
+                    @Html.ActionLink("Details", "Details", new { id = Model.客戶資料[i].Id }) |
                     @Html.ActionLink("Delete", "Delete", new { id = Model.客戶資料[i].Id }) |
                     @Html.ActionLink("客戶聯絡人", "Index", new { 客戶Id = Model.客戶資料[i].Id, type = "Contect" })
                 </td>
@@ -98,15 +91,12 @@
         }
     </table>
     <button class="btn btn-primary">批次更新</button>
-
 }
+@*@Html.PagedListPager(Model.客戶資料,Page=>Url.Action("Index",new { Page}))*@
+@Html.ActionLink("下載報表", "匯出Excel")
 @if (TempData["客戶Id"] != null)
 {
     <div id="content">
-        @if (TempData["type"].ToString() == "Details")
-        {
-            @Html.Partial("Details", ViewData["SelectedProductItem"])
-        }
         @if (TempData["type"].ToString() == "Contect")
         {
             @Html.Action("Contect", new { 客戶Id = TempData["客戶Id"] })
@@ -126,7 +116,4 @@
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script>
-
-    </script>
 }

@@ -3,15 +3,18 @@ using System.Web.Mvc;
 using MVC5HW.Models;
 using MVC5HW.Services;
 using System.Collections.Generic;
+using System;
+using System.IO;
+using NPOI.HSSF.UserModel;
 
 namespace MVC5HW.Controllers
 {
     public class 客戶資料Controller : BaseController
     {
         客戶資料Service 客戶資料Service;
-        客戶資料Repository Repository = RepositoryHelper.Get客戶資料Repository();
         客戶聯絡人Service 客戶聯絡人Service;
-
+        客戶資料Repository Repository = RepositoryHelper.Get客戶資料Repository();
+        客戶聯絡人Repository 客戶聯絡人Repository = RepositoryHelper.Get客戶聯絡人Repository();
 
         public 客戶資料Controller()
         {
@@ -99,11 +102,12 @@ namespace MVC5HW.Controllers
         }
 
         // GET: 客戶資料/Edit/5
+        [HandleError(ExceptionType = typeof(Exception))]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new Exception();
             }
             客戶資料VM 客戶資料 = 客戶資料Service.Get客戶資料ById(id.Value);
             if (客戶資料 == null)
@@ -158,7 +162,7 @@ namespace MVC5HW.Controllers
             {
                 return RedirectToAction("Index");
             }
-            return RedirectToAction("Delete",new { id= id });
+            return RedirectToAction("Delete", new { id = id });
         }
 
         // GET: 客戶聯絡人
@@ -168,6 +172,60 @@ namespace MVC5HW.Controllers
             var data = 客戶聯絡人Service.GetList(model);
             return PartialView(data);
         }
-        
+
+        [HttpPost]
+        public ActionResult Contect(IList<客戶聯絡人批次修改VM> 客戶聯絡人, int 客戶Id)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var item in 客戶聯絡人)
+                {
+                    var query = 客戶聯絡人Repository.Find(item.Id);
+                    if (query != null)
+                    {
+                        query.職稱 = item.職稱;
+                        query.電話 = item.電話;
+                        query.手機 = item.手機;
+                    }
+                }
+                客戶聯絡人Repository.UnitOfWork.Commit();
+            }
+            return RedirectToAction("Details", new { Id = 客戶Id });
+        }
+
+        public FileResult 匯出Excel()
+        {
+            HSSFWorkbook book = new HSSFWorkbook();
+
+            NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Sheet1");
+
+            var data = 客戶資料Service.GetList(new 客戶資料ListVM());
+
+            NPOI.SS.UserModel.IRow row1 = sheet1.CreateRow(0);
+            row1.CreateCell(0).SetCellValue("客戶名稱");
+            row1.CreateCell(1).SetCellValue("統一編號");
+            row1.CreateCell(1).SetCellValue("傳真	");
+            row1.CreateCell(1).SetCellValue("地址");
+            row1.CreateCell(1).SetCellValue("Email");
+
+            for (int i = 0; i < data.客戶資料.Count; i++)
+            {
+                NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
+                rowtemp.CreateCell(0).SetCellValue(data.客戶資料[i].客戶名稱.ToString());
+                rowtemp.CreateCell(0).SetCellValue(data.客戶資料[i].統一編號.ToString());
+                rowtemp.CreateCell(0).SetCellValue(data.客戶資料[i].傳真.ToString());
+                rowtemp.CreateCell(0).SetCellValue(data.客戶資料[i].地址.ToString());
+                rowtemp.CreateCell(1).SetCellValue(data.客戶資料[i].Email.ToString());
+            }
+
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+            book.Write(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+
+            return File(ms, "application/vnd.ms-excel", "報表.xls");
+
+            //MemoryStream ms = ExcelHelper.匯出Excel<客戶資料VM>(data.客戶資料, new 客戶資料VM());
+            //return File(ms.ToArray(), "application/vnd.ms-excel", "report.xls");
+        }
     }
 }

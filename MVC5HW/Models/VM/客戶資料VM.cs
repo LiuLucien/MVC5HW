@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using PagedList;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MVC5HW.Models

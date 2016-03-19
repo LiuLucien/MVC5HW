@@ -1,4 +1,5 @@
 ﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,9 +11,13 @@ namespace MVC5HW.Models
 
         public 客戶分類Enum 客戶資料Enums { get; set; }
 
+        [UIHint("Date")]
+        public DateTime 現在時間 { get; set; }
+
         public 客戶資料ListVM()
         {
             客戶資料 = new List<客戶資料VM>();
+            現在時間 = DateTime.Now;
         }
     }
 
@@ -55,10 +60,11 @@ namespace MVC5HW.Models
         [Display(Name = "密碼")]
         public string 密碼 { get; set; }
 
-        [Display(Name = "客戶分類")]
+        [Display(Name = "客戶分類"), UIHint("客戶分類")]
         public byte 客戶分類 { get; set; }
 
-        public string 客戶分類str { get; set; }
+        [UIHint("是否已刪除")]
+        public bool 是否已刪除 { get; set; }
     }
 
     public class 客戶修改資料VM

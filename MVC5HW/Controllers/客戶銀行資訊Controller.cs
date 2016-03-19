@@ -92,7 +92,8 @@ namespace MVC5HW.Controllers
             {
                 if (客戶銀行資訊Service.Edit(客戶銀行資訊))
                 {
-                    return RedirectToAction("Index");
+                    return View("index", 客戶銀行資訊Service.GetList(new 客戶銀行資訊ListVM()));
+                    //return RedirectToAction("Index");
                 }
             }
             客戶銀行資訊.客戶IdList = 客戶資料Service.Get客戶IdList(客戶銀行資訊.客戶Id);

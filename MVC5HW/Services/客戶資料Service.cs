@@ -26,10 +26,10 @@ namespace MVC5HW.Services
 
             Mapper.CreateMap<客戶資料, 客戶資料VM>();
             model.客戶資料 = Mapper.Map<List<客戶資料>, List<客戶資料VM>>(data.ToList());
-            foreach (var item in model.客戶資料)
-            {
-                item.客戶分類str = Enum.GetName(typeof(客戶分類Enum), item.客戶分類);
-            }
+            //foreach (var item in model.客戶資料)
+            //{
+            //    item.客戶分類str = Enum.GetName(typeof(客戶分類Enum), item.客戶分類);
+            //}
 
             return model;
         }

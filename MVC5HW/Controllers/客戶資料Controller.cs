@@ -32,6 +32,14 @@ namespace MVC5HW.Controllers
                 TempData["客戶Id"] = 客戶Id.Value;
                 TempData["type"] = type;
             }
+
+            var items = new List<SelectListItem>();
+            items.Add(new SelectListItem() { Value = "0", Text = "未分類" });
+            items.Add(new SelectListItem() { Value = "1", Text = "客戶分類一號" });
+            items.Add(new SelectListItem() { Value = "2", Text = "客戶分類二號" });
+
+            ViewData["EnumSearch"] = new SelectList(items, "Value", "Text");
+
             return View(data);
         }
 

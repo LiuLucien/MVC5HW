@@ -103,7 +103,9 @@
 
                     @RenderSection("breadcrumb", required: false)
                 </ul>
+            <div id="main">
                 @RenderBody()
+            </div>
             </div><!--/.fluid-container-->
             <!-- end: Content -->
         </div><!--/#content.span10-->
@@ -162,6 +164,7 @@
     <script src="~/BootstrapMetro/js/counter.js"></script>
     <script src="~/BootstrapMetro/js/retina.js"></script>
     <script src="~/BootstrapMetro/js/custom.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <!-- end: JavaScript-->
     @RenderSection("scripts", required: false)
 

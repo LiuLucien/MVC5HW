@@ -7,7 +7,7 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm(new AjaxOptions() { UpdateTargetId = "main" }))
 {
     @Html.AntiForgeryToken()
 

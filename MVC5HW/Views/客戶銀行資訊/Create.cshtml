@@ -1,6 +1,10 @@
 ﻿@model MVC5HW.Models.客戶銀行資訊VM
 
 @{
+    if (IsAjax)
+    {
+        Layout = "";
+    }
     ViewBag.Title = "Create";
 }
 

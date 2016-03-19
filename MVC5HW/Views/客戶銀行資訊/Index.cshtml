@@ -1,4 +1,6 @@
 ﻿@model MVC5HW.Models.客戶銀行資訊ListVM
+@using PagedList
+@using PagedList.MVC
 
 @{
     ViewBag.Title = "客戶銀行資訊列表";
@@ -67,6 +69,8 @@
         </tr>
     }
 </table>
+@Html.PagedListPager(Model.客戶銀行資訊, p => Url.Action("Index", new { Page = p }))
+
 <div id="Details"></div>
 @section breadcrumb{
     <li><a href="#">@ViewBag.Title</a></li>

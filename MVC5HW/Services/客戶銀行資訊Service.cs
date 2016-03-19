@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using MVC5HW.Helpers;
 using MVC5HW.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +24,20 @@ namespace MVC5HW.Services
             {
                 data = data.Where(s => s.帳戶名稱.Contains(model.Search));
             }
-            Mapper.CreateMap<客戶銀行資訊, 客戶銀行資訊VM>();
-            model.客戶銀行資訊 = Mapper.Map<List<客戶銀行資訊>, List<客戶銀行資訊VM>>(data.ToList());
+            data = data.OrderBy(s => s.Id);
+
+            //Mapper.CreateMap<客戶銀行資訊, 客戶銀行資訊VM>();
+            //model.客戶銀行資訊 = Mapper.Map<List<客戶銀行資訊>, List<客戶銀行資訊VM>>(data.ToList());
+            model.客戶銀行資訊 = data.Select(s => new 客戶銀行資訊VM()
+            {
+                Id = s.Id,
+                分行代碼 = s.分行代碼,
+                客戶Id = s.客戶Id,
+                帳戶名稱 = s.帳戶名稱,
+                帳戶號碼 = s.帳戶號碼,
+                銀行代碼 = s.銀行代碼,
+                銀行名稱 = s.銀行名稱,
+            }).ToPagedList(model.Page, model.PageSize);
 
             foreach (var item in model.客戶銀行資訊)
             {

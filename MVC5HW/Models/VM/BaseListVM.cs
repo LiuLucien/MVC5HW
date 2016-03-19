@@ -11,9 +11,12 @@ namespace MVC5HW.Models
 
         public int Page { get; set; }
 
+        public int PageSize { get; set; }
+
         public BaseListVM()
         {
             Page = 1;
+            PageSize = 2;
         }
     }
 }

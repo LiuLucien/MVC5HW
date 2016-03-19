@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using PagedList;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
@@ -6,11 +7,11 @@ namespace MVC5HW.Models
 {
     public class 客戶銀行資訊ListVM : BaseListVM
     {
-        public List<客戶銀行資訊VM> 客戶銀行資訊 { get; set; }
+        public IPagedList<客戶銀行資訊VM> 客戶銀行資訊 { get; set; }
 
         public 客戶銀行資訊ListVM()
         {
-            客戶銀行資訊 = new List<客戶銀行資訊VM>();
+            
         }
     }
 

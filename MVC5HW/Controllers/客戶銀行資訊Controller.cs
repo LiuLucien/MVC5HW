@@ -19,6 +19,7 @@ namespace MVC5HW.Controllers
         // GET: 客戶銀行資訊
         public ActionResult Index(客戶銀行資訊ListVM model)
         {
+            var aa = UserId;
             return View(客戶銀行資訊Service.GetList(model));
         }
 

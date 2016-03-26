@@ -17,8 +17,10 @@
     {
         <div class="form-group">
             @Html.TextBoxFor(p => p.Search, new { placeholder = "請輸入客戶名稱", @class = "form-control" })
-            @Html.DropDownListFor(s => s.EnumSearch, EnumHelper.GetSelectList(typeof(客戶分類Enum)), new { @class = "form-control", onchange = "this.form.submit();" })
-            @Html.DropDownList("EnumSearch", null, "--請選擇--", new { onchange = "this.form.submit();" })
+            @*@Html.DropDownListFor(s => s.EnumSearch, EnumHelper.GetSelectList(typeof(客戶分類Enum)), new { @class = "form-control", onchange = "this.form.submit();" })
+            @Html.DropDownList("EnumSearch", null, "--請選擇--", new { onchange = "this.form.submit();" })*@
+
+            @Html.EditorFor(s=>s.客戶資料Enums)
             <input type="submit" class="btn btn-default" value="查詢" onchange="this.form.submit();" />
         </div>
     }

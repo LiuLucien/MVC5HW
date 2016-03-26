@@ -19,9 +19,9 @@ namespace MVC5HW.Services
             {
                 data = data.Where(s => s.客戶名稱.Contains(model.Search));
             }
-            if (model.EnumSearch.HasValue)
+            if (model.客戶資料Enums != 客戶分類Enum.未分類)
             {
-                data = data.Where(s => s.客戶分類 == model.EnumSearch.Value);
+                data = data.Where(s => s.客戶分類 == (byte)model.客戶資料Enums);
             }
 
             Mapper.CreateMap<客戶資料, 客戶資料VM>();

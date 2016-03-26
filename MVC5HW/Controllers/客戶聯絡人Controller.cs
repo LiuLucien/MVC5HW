@@ -144,5 +144,13 @@ namespace MVC5HW.Controllers
             }
             return RedirectToAction("Delete", new { id = id });
         }
+
+        public JsonResult TestAjax()
+        {
+            return Json(new
+            {
+                Message = "TEST"
+            },JsonRequestBehavior.AllowGet);
+        }
     }
 }
